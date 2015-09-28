@@ -22,15 +22,15 @@ router.get('/', function(req, res, next) {
 
 
 router.post('/', function(req, res, next) {
-  console.log(Tweet);
+
 var userRef;
   User.find({ where: { name: req.body.name } })
   .then(function(user) {
     if(user){return user; }
-    else{return User.create({name: req.body.name})}
+    else{return User.create({name: req.body.name});}
   }).then(function(user){
     userRef = user;
-    console.log(user);
+
     return Tweet.create({tweet: req.body.tweet});
   })
   .then(function(tweet) {
@@ -40,14 +40,10 @@ var userRef;
 
 });
 
-// router.post('/', function(req, res, next) {
-//   res.status(201).json(tweetbank.add(req.body.name, req.body.tweet));
-//   res.redirect('/');
-// });
+
 
 // getting all tweets from user
 router.get('/users/:name', function(req, res, next) {
-  console.dir(User);
   Tweet.findAll(
      {
        include: [
@@ -63,7 +59,19 @@ router.get('/users/:name', function(req, res, next) {
 
 // get a single tweet
 router.get('/users/:name/tweets/:id', function(req, res, next) {
-  req.params.id = Number(req.params.id);
-  var tweets = tweetbank.find(req.params);
-  res.render('index',{ tweets: tweets});
+  var id = Number(req.params.id);
+  var userRef;
+  User.find({ where: { name: req.params.name } })
+  .then(function(user){
+    userRef = user.name;
+    return Tweet.findById(id);
+  })
+  .then(function(tweet) {
+    console.log("THIS IS THE USER: ");
+    console.dir(userRef);
+    console.log("THIS IS THE TWEET: ");
+    console.dir(tweet.tweet);
+    res.render('index',{ tweet: tweet, user: userRef});
+  });
+
 });
