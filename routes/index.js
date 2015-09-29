@@ -75,12 +75,15 @@ router.get('/users/:name/tweets/:id', function(req, res, next) {
       where: {
         id: id
       },
+      include: [
+        { model: User,
+          where: {name: userRef}
+        }],
       attributes:['tweet']
     });
   })
   .then(function(tweet) {
-
-    res.render('index',{ tweets: tweet, user: userRef});
+    res.render('index',{ tweets: tweet} );
   });
 
 });
