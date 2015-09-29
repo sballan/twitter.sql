@@ -28,10 +28,4 @@ app.use(require('./routes'));
 
 
 
-
-
-
-
-
-
 app.listen(3000);

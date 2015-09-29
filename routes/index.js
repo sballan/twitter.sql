@@ -57,21 +57,30 @@ router.get('/users/:name', function(req, res, next) {
   // res.json(tweets)
 });
 
+// [{User:{name:'M'}, tweet: 'ttt..'}]
 // get a single tweet
 router.get('/users/:name/tweets/:id', function(req, res, next) {
   var id = Number(req.params.id);
   var userRef;
-  User.find({ where: { name: req.params.name } })
+  User.find({
+    where: {
+      name: req.params.name
+    },
+    attributes: ['name']
+  })
   .then(function(user){
     userRef = user.name;
-    return Tweet.findById(id);
+
+    return Tweet.findAll({
+      where: {
+        id: id
+      },
+      attributes:['tweet']
+    });
   })
   .then(function(tweet) {
-    console.log("THIS IS THE USER: ");
-    console.dir(userRef);
-    console.log("THIS IS THE TWEET: ");
-    console.dir(tweet.tweet);
-    res.render('index',{ tweet: tweet, user: userRef});
+
+    res.render('index',{ tweets: tweet, user: userRef});
   });
 
 });
