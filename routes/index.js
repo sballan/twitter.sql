@@ -78,19 +78,9 @@ router.get('/users/:name/tweets/:id', function(req, res, next) {
       attributes:['tweet']
     });
   })
-<<<<<<< HEAD
-  .then(function(tweets) {
-    console.log("THIS IS THE USER: ");
-    console.dir(userRef);
-    console.log("THIS IS THE TWEET: ");
-    //console.dir(tweet.tweet);
-    res.render('index',{ tweets: tweets, user: userRef});
-
-=======
   .then(function(tweet) {
 
     res.render('index',{ tweets: tweet, user: userRef});
->>>>>>> f7f25e0914a5c1f34488ac443cb0e131be789608
   });
 
 });
