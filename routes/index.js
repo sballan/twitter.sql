@@ -57,15 +57,28 @@ router.get('/users/:name', function(req, res, next) {
   // res.json(tweets)
 });
 
+// [{User:{name:'M'}, tweet: 'ttt..'}]
 // get a single tweet
 router.get('/users/:name/tweets/:id', function(req, res, next) {
   var id = Number(req.params.id);
   var userRef;
-  User.find({ where: { name: req.params.name } })
+  User.find({
+    where: {
+      name: req.params.name
+    },
+    attributes: ['name']
+  })
   .then(function(user){
     userRef = user.name;
-    return Tweet.findById(id);
+
+    return Tweet.findAll({
+      where: {
+        id: id
+      },
+      attributes:['tweet']
+    });
   })
+<<<<<<< HEAD
   .then(function(tweets) {
     console.log("THIS IS THE USER: ");
     console.dir(userRef);
@@ -73,6 +86,11 @@ router.get('/users/:name/tweets/:id', function(req, res, next) {
     //console.dir(tweet.tweet);
     res.render('index',{ tweets: tweets, user: userRef});
 
+=======
+  .then(function(tweet) {
+
+    res.render('index',{ tweets: tweet, user: userRef});
+>>>>>>> f7f25e0914a5c1f34488ac443cb0e131be789608
   });
 
 });
