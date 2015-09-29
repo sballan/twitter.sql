@@ -66,12 +66,13 @@ router.get('/users/:name/tweets/:id', function(req, res, next) {
     userRef = user.name;
     return Tweet.findById(id);
   })
-  .then(function(tweet) {
+  .then(function(tweets) {
     console.log("THIS IS THE USER: ");
     console.dir(userRef);
     console.log("THIS IS THE TWEET: ");
-    console.dir(tweet.tweet);
-    res.render('index',{ tweet: tweet, user: userRef});
+    //console.dir(tweet.tweet);
+    res.render('index',{ tweets: tweets, user: userRef});
+
   });
 
 });
